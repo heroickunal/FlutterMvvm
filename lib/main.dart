@@ -3,6 +3,7 @@ import 'package:mvvm/utils/routes/Routes.dart';
 import 'package:mvvm/utils/routes/RoutesName.dart';
 import 'package:mvvm/view/LoginScreen.dart';
 import 'package:mvvm/view_model/AuthViewmodel.dart';
+import 'package:mvvm/view_model/UserViewmodel.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -16,7 +17,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [ChangeNotifierProvider(create: (_) => AuthViewModel())],
+        providers: [
+          ChangeNotifierProvider(create: (_) => AuthViewModel()),
+          ChangeNotifierProvider(create: (_) => UserViewModel())
+        ],
         child: MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
@@ -32,7 +36,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           home: const LoginScreen(),
-          initialRoute: RoutesName.login,
+          initialRoute: RoutesName.splash,
           onGenerateRoute: Routes.generateRoute,
         ));
   }

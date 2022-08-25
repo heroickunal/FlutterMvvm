@@ -85,9 +85,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     Utils.flushBarErrorMessage(
                         "Password is too small.", context);
                   } else {
-                    Map data = {
+                    /*Map data = {
                       "email": _emailController.text.toString(),
                       "password": _passwordController.text.toString(),
+                    };*/
+                    Map data = {
+                      "email": "eve.holt@reqres.in",
+                      "password": "cityslicka",
                     };
 
                     authViewModel.login(data, context);
@@ -96,10 +100,11 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: height * .03,
             ),
-            CustomTextButton(title: "Don't have an account? Sign up", onPress: () {
-              Navigator.pushNamed(context, RoutesName.signup);
-
-            })
+            CustomTextButton(
+                title: "Don't have an account? Sign up",
+                onPress: () {
+                  Navigator.pushNamed(context, RoutesName.signup);
+                })
           ],
         ),
       ),

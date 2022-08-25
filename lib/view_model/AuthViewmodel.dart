@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mvvm/repository/AuthRepository.dart';
 import 'package:mvvm/utils/routes/RoutesName.dart';
+import 'package:provider/provider.dart';
 
+import '../data/model/UserModel.dart';
+import '../utils/Constant.dart';
 import '../utils/utils.dart';
+import 'UserViewmodel.dart';
 
 class AuthViewModel extends ChangeNotifier {
   final authRepo = AuthRepository();
@@ -27,13 +31,17 @@ class AuthViewModel extends ChangeNotifier {
 
   bool get isRegisterApiLoading => _isRegisterApiLoading;
 
-
   Future<dynamic> login(dynamic data, BuildContext context) async {
     setLoading(true);
     authRepo.loginApi(data).then((value) {
       setLoading(false);
       Utils.log("Success -> ${value.toString()}");
       Navigator.pushNamed(context, RoutesName.home);
+
+      final userPreference = Provider.of<UserViewModel>(context, listen: false);
+      userPreference
+          .saveUserToken(UserModel(token: value[Constant.TOKEN].toString()));
+
     }).onError((error, stackTrace) {
       setLoading(false);
       Utils.flushBarErrorMessage(error.toString(), context);
