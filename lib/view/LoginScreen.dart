@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mvvm/res/components/RoundButton.dart';
+import 'package:mvvm/view_model/AuthViewmodel.dart';
+import 'package:provider/provider.dart';
 
 import '../utils/utils.dart';
 
@@ -22,7 +24,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height*1;
+    final authViewModel = Provider.of<AuthViewModel>(context);
+
+    final height = MediaQuery.of(context).size.height * 1;
 
     return Scaffold(
       body: SafeArea(
@@ -61,23 +65,34 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _passwordController,
                   );
                 }),
-            SizedBox(height: height*.085,),
-            RoundButton(title: "Login", onPress: (){
+            SizedBox(
+              height: height * .085,
+            ),
+            RoundButton(
+                title: "Login",
+                onPress: () {
+                  if (_emailController.text.isEmpty) {
+                    Utils.flushBarErrorMessage(
+                        "Please enter the email.", context);
+                  } else if (_passwordController.text.isEmpty) {
+                    Utils.flushBarErrorMessage(
+                        "Please enter the password.", context);
+                  } else if (_passwordController.text.length < 6) {
+                    Utils.flushBarErrorMessage(
+                        "Password is too small.", context);
+                  } else {
+                    Map data = {
+                      "email": _emailController.text.toString(),
+                      "password": _passwordController.text.toString(),
+                    };
 
-              if(_emailController.text.isEmpty){
-                Utils.flushBarErrorMessage("Please enter the email.", context);
-              }
-              else if(_passwordController.text.isEmpty){
-                Utils.flushBarErrorMessage("Please enter the password.", context);
-              }
-              else if(_passwordController.text.length<6){
-                Utils.flushBarErrorMessage("Password is too small.", context);
-              }
-            }),
-            SizedBox(height: height*.1,),
-            RoundButton(title: "Forgot Password?", onPress: (){
-
-            })
+                    authViewModel.login(data);
+                  }
+                }),
+            SizedBox(
+              height: height * .1,
+            ),
+            RoundButton(title: "Forgot Password?", onPress: () {})
           ],
         ),
       ),
