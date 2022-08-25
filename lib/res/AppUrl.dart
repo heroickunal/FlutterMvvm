@@ -4,6 +4,6 @@ class AppUrl{
 
   static var loginUrl = "$baseUrl/api/login";
 
-  static var registerUrl = "$baseUrl/api/register";
+  static var signUpUrl = "$baseUrl/api/register";
 
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mvvm/utils/routes/RoutesName.dart';
 import 'package:mvvm/view/HomeScreen.dart';
 import 'package:mvvm/view/LoginScreen.dart';
+import 'package:mvvm/view/SignUpScreen.dart';
 
 class Routes {
   static MaterialPageRoute generateRoute(RouteSettings settings) {
@@ -14,6 +15,10 @@ class Routes {
       case RoutesName.login:
         return MaterialPageRoute(
             builder: (BuildContext context) => LoginScreen());
+
+      case RoutesName.signup:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => SignUpScreen());
 
       default:
         return MaterialPageRoute(

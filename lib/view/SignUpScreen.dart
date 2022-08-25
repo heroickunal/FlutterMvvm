@@ -8,14 +8,14 @@ import '../res/components/CustomTextButton.dart';
 import '../utils/routes/RoutesName.dart';
 import '../utils/utils.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final ValueNotifier _obsecurePassword = ValueNotifier(true);
 
   final _emailController = TextEditingController();
@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final height = MediaQuery.of(context).size.height * 1;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Login")),
+      appBar: AppBar(title: const Text("Sign Up")),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -72,8 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
               height: height * .07,
             ),
             RoundButton(
-                title: "Login",
-                isLoading: authViewModel.isLoginApiLoading,
+                title: "Sign up",
+                isLoading: authViewModel.isRegisterApiLoading,
                 onPress: () {
                   if (_emailController.text.isEmpty) {
                     Utils.flushBarErrorMessage(
@@ -90,16 +90,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       "password": _passwordController.text.toString(),
                     };
 
-                    authViewModel.login(data, context);
+                    authViewModel.signUp(data, context);
                   }
                 }),
             SizedBox(
               height: height * .03,
             ),
-            CustomTextButton(title: "Don't have an account? Sign up", onPress: () {
-              Navigator.pushNamed(context, RoutesName.signup);
-
-            })
+            CustomTextButton(
+                title: "Already have an account? Login",
+                onPress: () {
+                  Navigator.pop(context);
+                })
           ],
         ),
       ),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mvvm/res/Colors.dart';
 
@@ -26,10 +25,12 @@ class RoundButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Center(
-            child: Text(
-          title,
-          style: TextStyle(color: AppColors.whiteColor),
-        )),
+            child: isLoading
+                ? const CircularProgressIndicator(color: AppColors.whiteColor,)
+                : Text(
+                    title,
+                    style: const TextStyle(color: AppColors.whiteColor),
+                  )),
       ),
     );
   }
