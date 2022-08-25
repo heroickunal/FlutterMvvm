@@ -1,8 +1,8 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 class AppColors{
 
-  static const Color blackColor = Color(0x00000000);
-  static const Color whiteColor = Color(0x00ffffff);
-  static const Color buttonColor = Color(0x0041f106);
+  static const Color blackColor = Color(0xFF000000);
+  static const Color whiteColor = Color(0xFFFFFFFF);
+  static const Color buttonColor = Color(0xFF1D6900);
 }

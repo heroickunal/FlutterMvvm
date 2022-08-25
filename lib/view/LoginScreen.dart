@@ -61,13 +61,37 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _passwordController,
                   );
                 }),
-            SizedBox(height: height*.1,),
+            SizedBox(height: height*.085,),
             RoundButton(title: "Login", onPress: (){
+
+              if(_emailController.text.isEmpty){
+                Utils.flushBarErrorMessage("Please enter the email.", context);
+              }
+              else if(_passwordController.text.isEmpty){
+                Utils.flushBarErrorMessage("Please enter the password.", context);
+              }
+              else if(_passwordController.text.length<6){
+                Utils.flushBarErrorMessage("Password is too small.", context);
+              }
+            }),
+            SizedBox(height: height*.1,),
+            RoundButton(title: "Forgot Password?", onPress: (){
 
             })
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+
+    _emailController.dispose();
+    _passwordController.dispose();
+    emailNode.dispose();
+    passwordNode.dispose();
   }
 }
