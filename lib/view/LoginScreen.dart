@@ -1,15 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mvvm/data/local_db/UserDbModel.dart';
 import 'package:mvvm/res/components/RoundButton.dart';
 import 'package:mvvm/view_model/AuthViewmodel.dart';
+import 'package:objectbox/objectbox.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../objectbox.g.dart';
 import '../res/components/CustomTextButton.dart';
 import '../utils/routes/RoutesName.dart';
 import '../utils/utils.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({Key? key, required this.userModelBox}) : super(key: key);
+
+  final Box<UserModelDb>? userModelBox;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -94,7 +100,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       "password": "cityslicka",
                     };
 
-                    authViewModel.login(data, context);
+                    authViewModel.login(
+                      data,
+                      context,
+                      widget.userModelBox!,
+                    );
                   }
                 }),
             SizedBox(
@@ -120,5 +130,6 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
     emailNode.dispose();
     passwordNode.dispose();
+    /* _store.close();*/
   }
 }
