@@ -6,12 +6,9 @@ import 'package:mvvm/view/LoginScreen.dart';
 import 'package:mvvm/view/SignUpScreen.dart';
 import 'package:mvvm/view/SplashScreen.dart';
 
-import '../../data/local_db/UserDbModel.dart';
-import '../../objectbox.g.dart';
-
 class Routes {
   static MaterialPageRoute generateRoute(
-      RouteSettings settings, Box<UserModelDb> userModelBox) {
+      RouteSettings settings) {
     switch (settings.name) {
       case RoutesName.splash:
         return MaterialPageRoute(
@@ -20,12 +17,12 @@ class Routes {
       case RoutesName.home:
         return MaterialPageRoute(
             builder: (BuildContext context) =>
-                HomeScreen(userModelBox: userModelBox));
+                HomeScreen());
 
       case RoutesName.login:
         return MaterialPageRoute(
             builder: (BuildContext context) =>
-                LoginScreen(userModelBox: userModelBox));
+                LoginScreen());
 
       case RoutesName.signup:
         return MaterialPageRoute(

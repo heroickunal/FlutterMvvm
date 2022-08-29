@@ -2,18 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mvvm/data/local_db/UserDbModel.dart';
 import 'package:mvvm/repository/AuthRepository.dart';
-import 'package:mvvm/utils/routes/RoutesName.dart';
 import 'package:mvvm/view/HomeScreen.dart';
 import 'package:provider/provider.dart';
 
 import '../data/model/UserModel.dart';
 import '../objectbox.g.dart';
 import '../utils/Constant.dart';
+import '../utils/routes/RoutesName.dart';
 import '../utils/utils.dart';
 import 'UserViewmodel.dart';
 
 class AuthViewModel extends ChangeNotifier {
-  final authRepo = AuthRepository();
+  final AuthRepository authRepo;
+
+  AuthViewModel({ required this.authRepo});
 
   //Login
   bool _isLoginApiLoading = false;
@@ -36,22 +38,22 @@ class AuthViewModel extends ChangeNotifier {
   bool get isRegisterApiLoading => _isRegisterApiLoading;
 
   Future<dynamic> login(
-      dynamic data, BuildContext context, Box<UserModelDb> userBox) async {
+      dynamic data, BuildContext context) async {
     setLoading(true);
     authRepo.loginApi(data).then((value) {
 
-      saveUserToken(userBox, value.toString());
+      saveUserToken(authRepo.userModelBox, value.toString());
 
       setLoading(false);
       Utils.log("Success -> ${value.toString()}");
-      /*Navigator.pushNamed(context, RoutesName.home);*/
+      Navigator.pushNamed(context, RoutesName.home);
 
-      Navigator.push(
+      /*Navigator.push(
         context,
         MaterialPageRoute<void>(
             builder: (BuildContext context) =>
-                HomeScreen(userModelBox: userBox)),
-      );
+                HomeScreen()),
+      );*/
 
       final userPreference = Provider.of<UserViewModel>(context, listen: false);
       userPreference

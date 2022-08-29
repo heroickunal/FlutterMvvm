@@ -1,10 +1,15 @@
+import 'package:mvvm/data/local_db/UserDbModel.dart';
 import 'package:mvvm/data/network/BaseApiService.dart';
 import 'package:mvvm/data/network/NetworkApiService.dart';
 
+import '../objectbox.g.dart';
 import '../res/AppUrl.dart';
 
 class AuthRepository {
-  BaseApiService apiService = NetworkApiService();
+  BaseApiService apiService;
+  Box<UserModelDb> userModelBox;
+
+  AuthRepository({required this.apiService,required this.userModelBox});
 
   Future<dynamic> loginApi(dynamic data) async {
     try {

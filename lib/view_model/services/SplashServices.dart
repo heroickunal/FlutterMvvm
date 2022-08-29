@@ -29,32 +29,30 @@ class SplashServices extends ChangeNotifier {
 
 
   Future<bool> checkAuth(BuildContext context) async {
+
+    var isLoggedIn = false;
+
     getUserData().then((value) async {
 
       Utils.log(value.token.toString());
       if (value.token == null || value.token == "null" || value.token == "") {
 
-        Utils.log("isLoggedIn--> false string");
-        await Future.delayed(Duration(seconds: 3));
-
-        notifyListeners();
-        return false;
+        Utils.log("isLoggedIn == null--> false string");
+        isLoggedIn = false;
       } else {
 
         Utils.log("isLoggedIn--> true string");
-        await Future.delayed(Duration(seconds: 3));
-
-        notifyListeners();
-        return true;
+        isLoggedIn = true;
       }
     }).onError((error, stackTrace) {
       Utils.log(error.toString());
 
-      notifyListeners();
-      return false;
+      Utils.log("isLoggedIn error --> false string");
+      isLoggedIn = false;
     });
 
+    await Future.delayed(const Duration(seconds: 3));
     notifyListeners();
-    return false;
+    return isLoggedIn;
   }
 }

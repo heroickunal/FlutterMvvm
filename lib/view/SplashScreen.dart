@@ -1,10 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mvvm/data/local_db/UserDbModel.dart';
-import 'package:mvvm/view_model/SplashViewmodel.dart';
-import 'package:provider/provider.dart';
-
-import '../objectbox.g.dart';
 import '../utils/utils.dart';
 import '../view_model/services/SplashServices.dart';
 import 'HomeScreen.dart';
@@ -18,57 +12,76 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   SplashServices splashServices = SplashServices();
 
-  late Store _store;
+  /* late Store _store;
   bool hasBeenInitialized = false;
-  Box<UserModelDb>? userModelBox;
+  Box<UserModelDb>? userModelBox;*/
 
   @override
   void initState() {
     super.initState();
 
-    openStore().then((Store store) {
+    splashServices.checkAuth(context).then((isLoggedIn) {
+      Utils.log("isLoggedIn--> $isLoggedIn");
+
+      if (isLoggedIn == true) {
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+              builder: (BuildContext context) => HomeScreen()),
+        );
+      } else if (isLoggedIn == false) {
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => LoginScreen(),
+          ),
+        );
+      }
+    });
+
+    /* openStore().then((Store store) {
       _store = store;
       userModelBox = store.box<UserModelDb>();
 
       splashServices.checkAuth(context).then((isLoggedIn) {
-
         Utils.log("isLoggedIn--> $isLoggedIn");
 
         if (isLoggedIn == true) {
           Navigator.push(
             context,
             MaterialPageRoute<void>(
-                builder: (BuildContext context) =>
-                    HomeScreen(userModelBox: userModelBox!)),
+                builder: (BuildContext context) => HomeScreen()),
           );
         } else if (isLoggedIn == false) {
           Navigator.push(
             context,
             MaterialPageRoute<void>(
-              builder: (BuildContext context) =>
-                  LoginScreen(userModelBox: userModelBox!),
+              builder: (BuildContext context) => LoginScreen(),
             ),
           );
         }
       });
-    });
+    });*/
   }
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Center(
-            child: Text("Splash Screen", style: Theme.of(context).textTheme.headline4,),
-          )
-        ],
+    return MaterialApp(
+      home: Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Text(
+                "Splash Screen",
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
