@@ -37,6 +37,7 @@ class AuthRepository {
 
   Future<dynamic> loginApi(dynamic data) async {
     try {
+
       if (userModelBox.getAll().isNotEmpty) {
         Utils.log(
             "Token from database is -> ${userModelBox.getAll().first.token}");

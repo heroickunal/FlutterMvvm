@@ -26,17 +26,20 @@ class _SplashScreenState extends State<SplashScreen> {
       Utils.log("isLoggedIn--> $isLoggedIn");
 
       if (isLoggedIn == true) {
-        Navigator.push(
+        Navigator.pushAndRemoveUntil<dynamic>(
           context,
-          MaterialPageRoute<void>(
-              builder: (BuildContext context) => HomeScreen()),
+          MaterialPageRoute<dynamic>(
+            builder: (BuildContext context) => HomeScreen(),
+          ),
+          (route) => false, //if you want to disable back feature set to false
         );
       } else if (isLoggedIn == false) {
-        Navigator.push(
+        Navigator.pushAndRemoveUntil<dynamic>(
           context,
-          MaterialPageRoute<void>(
+          MaterialPageRoute<dynamic>(
             builder: (BuildContext context) => LoginScreen(),
           ),
+          (route) => false, //if you want to disable back feature set to false
         );
       }
     });
