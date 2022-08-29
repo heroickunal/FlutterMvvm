@@ -8,8 +8,24 @@ import 'package:provider/provider.dart';
 import '../res/components/RoundButton.dart';
 import '../utils/utils.dart';
 
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
-class HomeScreen extends StatelessWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+
+      authViewModel.getToken();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final userPreferences = Provider.of<UserViewModel>(context);
@@ -20,7 +36,7 @@ class HomeScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              Text("Token = ${getUserToken(authViewModel)}"),
+              Text("Token = ${authViewModel.savedToken}"),
               Center(
                 child: RoundButton(
                   title: "Logout",
@@ -41,15 +57,6 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String? getUserToken(AuthViewModel authViewModel) {
-    List<UserModelDb>? listOfUserModel =
-        authViewModel.authRepo.userModelBox.getAll().reversed.toList() ?? [];
-
-    Utils.log("Token is = ${listOfUserModel.first.token}");
-
-    return listOfUserModel.first.token;
   }
 
 /*@override

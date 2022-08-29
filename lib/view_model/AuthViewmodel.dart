@@ -13,9 +13,10 @@ import '../utils/utils.dart';
 import 'UserViewmodel.dart';
 
 class AuthViewModel extends ChangeNotifier {
+
   final AuthRepository authRepo;
 
-  AuthViewModel({ required this.authRepo});
+  AuthViewModel({required this.authRepo});
 
   //Login
   bool _isLoginApiLoading = false;
@@ -37,12 +38,12 @@ class AuthViewModel extends ChangeNotifier {
 
   bool get isRegisterApiLoading => _isRegisterApiLoading;
 
-  Future<dynamic> login(
-      dynamic data, BuildContext context) async {
+  Future<dynamic> login(dynamic data, BuildContext context) async {
     setLoading(true);
     authRepo.loginApi(data).then((value) {
+      /*saveUserToken(authRepo.userModelBox, value.toString());*/
 
-      saveUserToken(authRepo.userModelBox, value.toString());
+      authRepo.saveToken(value.toString());
 
       setLoading(false);
       Utils.log("Success -> ${value.toString()}");
@@ -74,8 +75,7 @@ class AuthViewModel extends ChangeNotifier {
     List<UserModelDb> userModelDb = query.find();
     query.close();*/
 
-    List<UserModelDb>? tokens =
-        userBox.getAll().reversed.toList() ?? [];
+    List<UserModelDb>? tokens = userBox.getAll().reversed.toList() ?? [];
 
     Utils.log("Token is --> ${tokens.first.token}");
   }
@@ -92,6 +92,22 @@ class AuthViewModel extends ChangeNotifier {
 
       Utils.flushBarErrorMessage(error.toString(), context);
       Utils.log("Error -> ${error.toString()}");
+    });
+  }
+
+  String _SavedToken = "";
+
+  String get savedToken => _SavedToken;
+
+  setToken(String token) {
+    _SavedToken = token;
+    notifyListeners();
+  }
+
+  void getToken() async {
+
+    authRepo.getToken().then((value) {
+      setToken(value);
     });
   }
 }
